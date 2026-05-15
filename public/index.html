@@ -38,43 +38,14 @@
   .screen.active { display: flex; }
 
   /* ═══ SETUP ═══ */
-  .setup {
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 1.25rem;
-    gap: 1.5rem;
-    text-align: center;
-    background: radial-gradient(ellipse at 50% 20%, #1a1a2e 0%, var(--bg) 70%);
-  }
+  .setup { align-items: center; justify-content: center; padding: 1.5rem 1.25rem; gap: 1.5rem; text-align: center; background: radial-gradient(ellipse at 50% 20%, #1a1a2e 0%, var(--bg) 70%); }
 
-  .logo {
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 2.4rem;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, var(--ta), var(--gold), var(--tb));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.1;
-  }
-
-  .logo-sub {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-top: 0.2rem;
-  }
+  .logo { font-family: 'Dela Gothic One', cursive; font-size: 2.4rem; letter-spacing: -1px; background: linear-gradient(135deg, var(--ta), var(--gold), var(--tb)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+  .logo-sub { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 3px; text-transform: uppercase; margin-top: 0.2rem; }
 
   .team-setup { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 0.75rem; }
 
-  .team-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 1rem;
-    padding: 1rem 1.25rem;
-    text-align: left;
-  }
-
+  .team-card { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: 1rem 1.25rem; text-align: left; }
   .team-card.team-a { border-left: 3px solid var(--ta); }
   .team-card.team-b { border-left: 3px solid var(--tb); }
 
@@ -97,7 +68,6 @@
   .bot-label { font-size: 0.65rem; color: var(--accent); font-weight: 500; }
 
   .role-toggle { display: flex; gap: 0.25rem; flex-shrink: 0; }
-
   .role-btn { padding: 0.3rem 0.5rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 0.35rem; color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 600; cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; }
   .role-btn.selected { background: var(--gold); border-color: var(--gold); color: #0a0a0f; }
   .role-btn.locked { opacity: 0.4; cursor: default; }
@@ -116,7 +86,6 @@
 
   /* ═══ GAME ═══ */
   .game { background: var(--bg); }
-
   .game-header { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.75rem; background: var(--surface); border-bottom: 1px solid var(--border); }
 
   .team-pill { display: flex; flex-direction: column; align-items: center; padding: 0.3rem 0.6rem; border-radius: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; min-width: 70px; }
@@ -129,115 +98,38 @@
 
   .game-body { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0.75rem; gap: 0.6rem; overflow-y: auto; }
 
-  /* Category + points top bar */
   .round-info { width: 100%; max-width: 440px; display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.4rem 0; }
-
   .category-badge { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 600; }
   .points-badge { display: inline-block; padding: 0.15rem 0.5rem; background: var(--gold); color: #0a0a0f; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 700; border-radius: 2rem; letter-spacing: 1px; box-shadow: 0 2px 12px var(--gold-glow); }
 
-  /* Turn timeline — each turn is a card showing clue+guess together */
   .turn-timeline { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 0.5rem; }
 
-  .turn-card {
-    border-radius: 0.65rem;
-    padding: 0.6rem 0.75rem;
-    animation: slide-up 0.3s ease;
-  }
-
+  .turn-card { border-radius: 0.65rem; padding: 0.6rem 0.75rem; animation: slide-up 0.3s ease; }
   .turn-card.ta-card { background: var(--ta-bg); border: 1px solid var(--ta-glow); }
   .turn-card.tb-card { background: var(--tb-bg); border: 1px solid var(--tb-glow); }
 
-  .turn-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.35rem;
-  }
-
-  .turn-team-label {
-    font-size: 0.55rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
+  .turn-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem; }
+  .turn-team-label { font-size: 0.55rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
   .ta-card .turn-team-label { color: var(--ta); }
   .tb-card .turn-team-label { color: var(--tb); }
-
   .turn-num { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; color: var(--text-dim); }
 
-  .turn-clue-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.3rem;
-  }
+  .turn-clue-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; }
+  .turn-role-tag { font-size: 0.5rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); min-width: 36px; }
+  .turn-clue-word { font-family: 'Dela Gothic One', cursive; font-size: 1.15rem; color: var(--gold); letter-spacing: 1px; }
+  .turn-clue-giver { margin-left: auto; font-size: 0.6rem; color: var(--text-dim); font-weight: 500; }
 
-  .turn-role-tag {
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    min-width: 36px;
-  }
-
-  .turn-clue-word {
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 1.15rem;
-    color: var(--gold);
-    letter-spacing: 1px;
-  }
-
-  .turn-clue-giver {
-    margin-left: auto;
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    font-weight: 500;
-  }
-
-  .turn-guess-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding-top: 0.25rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .turn-guess-word {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text);
-  }
-
+  .turn-guess-row { display: flex; align-items: center; gap: 0.5rem; padding-top: 0.25rem; border-top: 1px solid rgba(255,255,255,0.05); }
+  .turn-guess-word { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 600; color: var(--text); }
   .turn-guess-word.correct { color: #22c55e; }
   .turn-guess-word.wrong { color: var(--text-dim); }
   .turn-guess-word.passed { color: var(--text-dim); font-style: italic; }
-
   .turn-guess-result { margin-left: auto; font-size: 0.85rem; }
+  .turn-guess-giver { margin-left: auto; font-size: 0.6rem; color: var(--text-dim); font-weight: 500; }
 
-  .turn-guess-giver {
-    margin-left: auto;
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    font-weight: 500;
-  }
+  @keyframes slide-up { 0% { transform: translateY(8px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
 
-  @keyframes slide-up {
-    0% { transform: translateY(8px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-  }
-
-  /* Status banner */
-  .status-banner {
-    width: 100%; max-width: 440px;
-    padding: 0.55rem 0.75rem;
-    border-radius: 0.6rem;
-    text-align: center;
-    font-weight: 700;
-    font-size: 0.8rem;
-    animation: slide-up 0.25s ease;
-  }
+  .status-banner { width: 100%; max-width: 440px; padding: 0.55rem 0.75rem; border-radius: 0.6rem; text-align: center; font-weight: 700; font-size: 0.8rem; animation: slide-up 0.25s ease; }
   .status-banner.ta-turn { background: var(--ta-bg); border: 1px solid var(--ta-glow); color: var(--ta); }
   .status-banner.tb-turn { background: var(--tb-bg); border: 1px solid var(--tb-glow); color: var(--tb); }
   .status-banner.ai-status { background: var(--surface); border: 1px solid var(--border); color: var(--accent); }
@@ -247,7 +139,6 @@
   .dots-inline span:nth-child(3) { animation-delay: 0.3s; }
   @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
 
-  /* Input area */
   .input-area { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 0.35rem; }
   .guess-section { display: flex; gap: 0.4rem; }
   .guess-input { flex: 1; padding: 0.7rem 0.85rem; background: var(--surface); border: 2px solid var(--border); border-radius: 0.6rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; outline: none; transition: border-color 0.2s; }
@@ -260,7 +151,6 @@
   .guess-btn.tb-btn { background: var(--tb); }
 
   .pass-btn { padding: 0.4rem; background: transparent; border: 1px solid var(--border); border-radius: 0.5rem; color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 600; cursor: pointer; letter-spacing: 1px; }
-
   .input-hint { font-size: 0.6rem; color: var(--text-dim); text-align: center; font-style: italic; }
 
   /* ═══ OVERLAY ═══ */
@@ -301,6 +191,86 @@
   .play-again-btn:active { transform: scale(0.97); }
 
   .hidden { display: none !important; }
+
+  /* ═══ TUTORIAL TOOLTIP ═══ */
+  .tut-tooltip {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 2rem);
+    max-width: 420px;
+    background: linear-gradient(135deg, #2d1b69, #1a1145);
+    border: 1.5px solid var(--accent);
+    border-radius: 1rem;
+    padding: 1rem 1.1rem;
+    z-index: 200;
+    box-shadow: 0 8px 40px rgba(167, 139, 250, 0.3);
+    animation: tut-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes tut-pop { 0% { transform: translateX(-50%) translateY(20px) scale(0.9); opacity: 0; } 100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; } }
+
+  .tut-badge {
+    display: inline-block;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(255,217,61,0.15);
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.3rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .tut-text {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+
+  .tut-text strong { color: var(--gold); }
+  .tut-text .hl-ta { color: var(--ta); font-weight: 600; }
+  .tut-text .hl-tb { color: var(--tb); font-weight: 600; }
+
+  .tut-btn {
+    display: inline-block;
+    padding: 0.45rem 1.2rem;
+    background: var(--accent);
+    border: none;
+    border-radius: 0.5rem;
+    color: #0a0a0f;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .tut-btn:active { transform: scale(0.95); }
+
+  .tut-skip {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 0.45rem 0.5rem;
+    text-decoration: underline;
+  }
+
+  .tut-step-dots {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+  .tut-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .tut-dot.active { background: var(--accent); }
+  .tut-dot.done { background: var(--gold); }
 </style>
 </head>
 <body>
@@ -383,17 +353,13 @@
     <div class="round-indicator" id="round-label">ROUND 1 / 5</div>
     <div class="team-pill tb"><span class="tp-label">BETA</span><span class="tp-score" id="score-b">0</span></div>
   </div>
-
   <div class="game-body">
     <div class="round-info">
       <span class="category-badge" id="category-label"></span>
       <span class="points-badge" id="points-badge">10 PTS</span>
     </div>
-
     <div class="turn-timeline" id="turn-timeline"></div>
-
     <div id="status-banner" class="status-banner ai-status hidden"></div>
-
     <div class="input-area hidden" id="input-area">
       <div class="guess-section">
         <input type="text" id="guess-input" class="guess-input" placeholder="..." autocomplete="off" autocapitalize="off">
@@ -427,7 +393,14 @@
   <button class="play-again-btn" id="play-again-btn">PLAY AGAIN</button>
 </div>
 
+<!-- ═══════ TUTORIAL TOOLTIP (created by JS) ═══════ -->
+<div id="tut-tooltip" class="tut-tooltip hidden"></div>
+
 <script>
+/* ═══════════════════════════════════════════════════════
+   PASSWORD DUEL — 4 Players (2 Human + 2 AI) + Tutorial
+   ═══════════════════════════════════════════════════════ */
+
 var WORDS = {
   easy: [
     {w:"SUNSET",c:"Nature"},{w:"GUITAR",c:"Music"},{w:"CASTLE",c:"Architecture"},{w:"BANANA",c:"Food"},
@@ -462,10 +435,8 @@ var G = {
   totalRounds: 5, difficulty: 'easy', round: 0,
   word: '', category: '', usedWords: new Set(),
   clueCountA: 0, clueCountB: 0,
-  allClues: [],
-  allGuesses: [],
-  whosFirst: 'a',
-  roundOver: false,
+  allClues: [], allGuesses: [],
+  whosFirst: 'a', roundOver: false,
   _submitMode: null, _clueTeam: null, _clueNum: 0, _guessTeam: null,
   _currentTurnCard: null,
 };
@@ -474,18 +445,170 @@ var $ = function(id) { return document.getElementById(id); };
 var show = function(el) { el.classList.remove('hidden'); };
 var hide = function(el) { el.classList.add('hidden'); };
 
-var roundsGroup = $('rounds-group');
-var diffGroup = $('diff-group');
-var statusBanner = $('status-banner');
-var inputArea = $('input-area');
-var guessInput = $('guess-input');
-var guessBtn = $('guess-btn');
-var passBtn = $('pass-btn');
-var inputHint = $('input-hint');
-var turnTimeline = $('turn-timeline');
-var roundOverlay = $('round-overlay');
+var roundsGroup = $('rounds-group'), diffGroup = $('diff-group');
+var statusBanner = $('status-banner'), inputArea = $('input-area');
+var guessInput = $('guess-input'), guessBtn = $('guess-btn');
+var passBtn = $('pass-btn'), inputHint = $('input-hint');
+var turnTimeline = $('turn-timeline'), roundOverlay = $('round-overlay');
 
-// ── SETUP ──
+// ═══════════════════════
+// TUTORIAL SYSTEM
+// ═══════════════════════
+var TUT = {
+  active: false,
+  step: 0,
+  totalSteps: 7,
+};
+
+function isTutorialDone() {
+  try { return localStorage.getItem('pwd_tut_done') === '1'; } catch(e) { return false; }
+}
+
+function markTutorialDone() {
+  try { localStorage.setItem('pwd_tut_done', '1'); } catch(e) {}
+}
+
+function showTutTip(stepNum, badge, html, btnText, onBtn) {
+  var tip = $('tut-tooltip');
+  var dots = '';
+  for (var i = 0; i < TUT.totalSteps; i++) {
+    var cls = i < stepNum ? 'tut-dot done' : i === stepNum ? 'tut-dot active' : 'tut-dot';
+    dots += '<div class="' + cls + '"></div>';
+  }
+  tip.innerHTML =
+    '<div class="tut-step-dots">' + dots + '</div>' +
+    '<div class="tut-badge">' + badge + '</div>' +
+    '<div class="tut-text">' + html + '</div>' +
+    '<button class="tut-btn" id="tut-next-btn">' + btnText + '</button>' +
+    '<button class="tut-skip" id="tut-skip-btn">Skip tutorial</button>';
+  show(tip);
+  $('tut-next-btn').onclick = function() { hide(tip); if (onBtn) onBtn(); };
+  $('tut-skip-btn').onclick = function() { endTutorial(); };
+}
+
+function hideTutTip() { hide($('tut-tooltip')); }
+
+function endTutorial() {
+  TUT.active = false;
+  hideTutTip();
+  markTutorialDone();
+  // Reset game state and go back to setup
+  showScreen('setup');
+  turnTimeline.innerHTML = '';
+  $('score-a').textContent = '0';
+  $('score-b').textContent = '0';
+  hideInputs(); hide(statusBanner);
+  roundOverlay.classList.remove('active');
+}
+
+function startTutorial() {
+  TUT.active = true;
+  TUT.step = 0;
+
+  // Force setup: both humans are guessers, AIs are cluers
+  G.teamA.human = 'You'; G.teamA.humanRole = 'guesser'; G.teamA.bot = 'Nova'; G.teamA.score = 0;
+  G.teamB.human = 'Friend'; G.teamB.humanRole = 'guesser'; G.teamB.bot = 'Byte'; G.teamB.score = 0;
+  G.round = 0; G.totalRounds = 1; G.difficulty = 'easy';
+  G.word = 'GUITAR'; G.category = 'Music';
+  G.clueCountA = 0; G.clueCountB = 0;
+  G.allClues = []; G.allGuesses = []; G.roundOver = false;
+
+  showScreen('game');
+  $('round-label').textContent = 'TUTORIAL';
+  $('category-label').textContent = 'Music';
+  $('points-badge').textContent = '10 PTS';
+  $('score-a').textContent = '0';
+  $('score-b').textContent = '0';
+  turnTimeline.innerHTML = '';
+  hideInputs(); hide(statusBanner);
+
+  // Step 0: Welcome
+  showTutTip(0, 'Welcome', 'This is <strong>Password Duel</strong>! Two teams race to guess a secret word. Each team has a <strong>clue-giver</strong> and a <strong>guesser</strong>.', 'Got it!', tutStep1);
+}
+
+function tutStep1() {
+  // Step 1: Explain the round
+  showTutTip(1, 'The Round', 'The secret word is <strong>GUITAR</strong> (category: Music). Clue-givers know the word. They give <strong>one-word clues</strong> to help their guesser figure it out.', 'Next', tutStep2);
+}
+
+function tutStep2() {
+  // Step 2: Nova gives clue "STRINGS"
+  setStatus('\uD83E\uDD16 Nova is thinking...', 'ai-status');
+  setTimeout(function() {
+    hide(statusBanner);
+    G.allClues.push({ word: 'STRINGS', team: 'a', giver: 'Nova' });
+    G._currentTurnCard = createTurnCard('a', 1, 'Nova', 'STRINGS');
+    showTutTip(2, 'Clue Given', '\uD83E\uDD16 <span class="hl-ta">Nova</span> (Team Alpha\'s AI) gave the clue <strong>"STRINGS"</strong>. Now it\'s your turn to guess! What word in the <strong>Music</strong> category relates to "strings"?', 'Let me guess!', tutStep3);
+  }, 1200);
+}
+
+function tutStep3() {
+  // Step 3: Player guesses wrong — we force "PIANO"
+  setStatus('\uD83C\uDFAF You, guess the word!', 'ta-turn');
+  guessInput.value = ''; guessInput.placeholder = 'Type a wrong guess like PIANO...';
+  guessInput.className = 'guess-input ta-active';
+  guessBtn.className = 'guess-btn ta-btn';
+  guessBtn.textContent = 'GO';
+  show(inputArea); hide(passBtn); hide(inputHint);
+  guessInput.focus();
+  G._submitMode = 'tut-wrong-guess';
+}
+
+function tutHandleWrongGuess(word) {
+  fillGuessInCard(G._currentTurnCard, 'You', word, false, false);
+  hideInputs(); hide(statusBanner);
+  showTutTip(3, 'Wrong Guess!', '\u274C <strong>"' + word.toUpperCase() + '"</strong> wasn\'t right. Don\'t worry \u2014 the other team gets a turn now, then you\'ll get more clues. Points decrease each turn: 10 \u2192 8 \u2192 6 \u2192 4 \u2192 2.', 'Next', tutStep4);
+}
+
+function tutStep4() {
+  // Step 4: Byte gives clue "FRETS"
+  setStatus('\uD83E\uDD16 Byte is thinking...', 'ai-status');
+  setTimeout(function() {
+    hide(statusBanner);
+    G.allClues.push({ word: 'FRETS', team: 'b', giver: 'Byte' });
+    var card2 = createTurnCard('b', 1, 'Byte', 'FRETS');
+    // Byte's guesser (Friend) guesses wrong too
+    setTimeout(function() {
+      fillGuessInCard(card2, 'Friend', 'UKULELE', false, false);
+      showTutTip(4, 'Teams Alternate', '<span class="hl-tb">Byte</span> gave <strong>"FRETS"</strong>, and Friend guessed <strong>"UKULELE"</strong> \u274C. Teams keep alternating clue \u2192 guess turns until someone gets it right!', 'Next', tutStep5);
+    }, 800);
+  }, 1200);
+}
+
+function tutStep5() {
+  // Step 5: Nova gives 2nd clue "ACOUSTIC"
+  setStatus('\uD83E\uDD16 Nova gives another clue...', 'ai-status');
+  setTimeout(function() {
+    hide(statusBanner);
+    G.allClues.push({ word: 'ACOUSTIC', team: 'a', giver: 'Nova' });
+    G._currentTurnCard = createTurnCard('a', 2, 'Nova', 'ACOUSTIC');
+    showTutTip(5, 'More Clues!', 'Nova gave <strong>"ACOUSTIC"</strong>. You now have clues: STRINGS + ACOUSTIC. The answer is worth <strong>8 points</strong> now (decreases each turn). Try typing <strong>GUITAR</strong>!', 'Let me guess!', tutStep6);
+  }, 1000);
+}
+
+function tutStep6() {
+  // Step 6: Player guesses correct — must type GUITAR
+  setStatus('\uD83C\uDFAF You, guess the word!', 'ta-turn');
+  guessInput.value = ''; guessInput.placeholder = 'Type GUITAR...';
+  guessInput.className = 'guess-input ta-active';
+  guessBtn.className = 'guess-btn ta-btn';
+  guessBtn.textContent = 'GO';
+  show(inputArea); hide(passBtn); hide(inputHint);
+  guessInput.focus();
+  G._submitMode = 'tut-correct-guess';
+}
+
+function tutHandleCorrectGuess() {
+  fillGuessInCard(G._currentTurnCard, 'You', 'GUITAR', true, false);
+  hideInputs(); hide(statusBanner);
+  showTutTip(6, 'You Got It!', '\u2705 <strong>GUITAR</strong> is correct! Team Alpha scores <strong>8 points</strong>. In a real game, you\'d play multiple rounds. The team with the most points wins!', 'Start Playing!', function() {
+    endTutorial();
+  });
+}
+
+// ═══════════════════════
+// SETUP INTERACTIONS
+// ═══════════════════════
 document.querySelectorAll('.role-toggle[data-player^="p"]').forEach(function(toggle) {
   var player = toggle.dataset.player;
   var partner = player === 'p1' ? 'bot1' : 'bot2';
@@ -503,92 +626,54 @@ document.querySelectorAll('.role-toggle[data-player^="p"]').forEach(function(tog
 roundsGroup.querySelectorAll('.pill-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     roundsGroup.querySelectorAll('.pill-btn').forEach(function(b) { b.classList.remove('selected'); });
-    btn.classList.add('selected');
-    G.totalRounds = parseInt(btn.dataset.val);
+    btn.classList.add('selected'); G.totalRounds = parseInt(btn.dataset.val);
   });
 });
 
 diffGroup.querySelectorAll('.pill-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     diffGroup.querySelectorAll('.pill-btn').forEach(function(b) { b.classList.remove('selected', 'diff-sel'); });
-    btn.classList.add('diff-sel');
-    G.difficulty = btn.dataset.val;
+    btn.classList.add('diff-sel'); G.difficulty = btn.dataset.val;
   });
 });
 
-$('start-btn').addEventListener('click', startGame);
+$('start-btn').addEventListener('click', function() {
+  if (!isTutorialDone()) {
+    startTutorial();
+  } else {
+    startGame();
+  }
+});
 $('next-btn').addEventListener('click', nextRound);
 $('play-again-btn').addEventListener('click', function() { location.reload(); });
 guessBtn.addEventListener('click', submitHuman);
 guessInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') submitHuman(); });
 passBtn.addEventListener('click', handlePass);
 
-// ── HELPERS ──
-function showScreen(n) {
-  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
-  $(n + '-screen').classList.add('active');
-}
-
-function getRole(player) {
-  return document.querySelector('.role-toggle[data-player="' + player + '"] .role-btn.selected').dataset.role;
-}
-
-function cluerOf(team) {
-  var t = team === 'a' ? G.teamA : G.teamB;
-  return t.humanRole === 'cluer' ? { name: t.human, isBot: false } : { name: t.bot, isBot: true };
-}
-
-function guesserOf(team) {
-  var t = team === 'a' ? G.teamA : G.teamB;
-  return t.humanRole === 'guesser' ? { name: t.human, isBot: false } : { name: t.bot, isBot: true };
-}
-
-function currentPoints() {
-  var total = G.clueCountA + G.clueCountB;
-  return total === 0 ? 10 : Math.max(10 - (total - 1) * 2, 2);
-}
-
-function updatePointsBadge() {
-  var total = G.clueCountA + G.clueCountB;
-  $('points-badge').textContent = (total === 0 ? 10 : Math.max(10 - (total - 1) * 2, 2)) + ' PTS';
-}
-
-function setStatus(html, cls) {
-  statusBanner.className = 'status-banner ' + cls;
-  statusBanner.innerHTML = html;
-  show(statusBanner);
-}
-
+// ═══════════════════════
+// HELPERS
+// ═══════════════════════
+function showScreen(n) { document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); }); $(n + '-screen').classList.add('active'); }
+function getRole(player) { return document.querySelector('.role-toggle[data-player="' + player + '"] .role-btn.selected').dataset.role; }
+function cluerOf(team) { var t = team === 'a' ? G.teamA : G.teamB; return t.humanRole === 'cluer' ? { name: t.human, isBot: false } : { name: t.bot, isBot: true }; }
+function guesserOf(team) { var t = team === 'a' ? G.teamA : G.teamB; return t.humanRole === 'guesser' ? { name: t.human, isBot: false } : { name: t.bot, isBot: true }; }
+function currentPoints() { var total = G.clueCountA + G.clueCountB; return total === 0 ? 10 : Math.max(10 - (total - 1) * 2, 2); }
+function updatePointsBadge() { var total = G.clueCountA + G.clueCountB; $('points-badge').textContent = (total === 0 ? 10 : Math.max(10 - (total - 1) * 2, 2)) + ' PTS'; }
+function setStatus(html, cls) { statusBanner.className = 'status-banner ' + cls; statusBanner.innerHTML = html; show(statusBanner); }
 function hideInputs() { hide(inputArea); hide(passBtn); hide(inputHint); }
-
-function allClueWords() {
-  return G.allClues.map(function(c) { return c.word.toUpperCase(); });
-}
-
+function allClueWords() { return G.allClues.map(function(c) { return c.word.toUpperCase(); }); }
 function sleep(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
 
-// ── TURN CARD UI ──
-// Creates a turn card with clue, then later adds guess result to it
 function createTurnCard(team, clueNum, giverName, clueWord) {
   var teamLabel = team === 'a' ? 'ALPHA' : 'BETA';
+  var pts = TUT.active ? (G.allClues.length <= 1 ? 10 : 8) : currentPoints();
   var card = document.createElement('div');
   card.className = 'turn-card t' + team + '-card';
   card.innerHTML =
-    '<div class="turn-card-header">' +
-      '<span class="turn-team-label">' + teamLabel + ' &middot; TURN ' + clueNum + '</span>' +
-      '<span class="turn-num">' + currentPoints() + ' pts</span>' +
-    '</div>' +
-    '<div class="turn-clue-row">' +
-      '<span class="turn-role-tag">CLUE</span>' +
-      '<span class="turn-clue-word">' + clueWord.toUpperCase() + '</span>' +
-      '<span class="turn-clue-giver">' + giverName + '</span>' +
-    '</div>' +
-    '<div class="turn-guess-row" id="guess-slot-pending">' +
-      '<span class="turn-role-tag">GUESS</span>' +
-      '<span class="turn-guess-word" style="color:var(--text-dim);font-style:italic">waiting...</span>' +
-    '</div>';
+    '<div class="turn-card-header"><span class="turn-team-label">' + teamLabel + ' &middot; TURN ' + clueNum + '</span><span class="turn-num">' + pts + ' pts</span></div>' +
+    '<div class="turn-clue-row"><span class="turn-role-tag">CLUE</span><span class="turn-clue-word">' + clueWord.toUpperCase() + '</span><span class="turn-clue-giver">' + giverName + '</span></div>' +
+    '<div class="turn-guess-row" id="guess-slot-pending"><span class="turn-role-tag">GUESS</span><span class="turn-guess-word" style="color:var(--text-dim);font-style:italic">waiting...</span></div>';
   turnTimeline.appendChild(card);
-  // Scroll to bottom
   card.scrollIntoView({ behavior: 'smooth', block: 'end' });
   return card;
 }
@@ -598,86 +683,49 @@ function fillGuessInCard(card, guesserName, guessWord, isCorrect, isPassed) {
   if (!slot) return;
   slot.removeAttribute('id');
   if (isPassed) {
-    slot.innerHTML =
-      '<span class="turn-role-tag">GUESS</span>' +
-      '<span class="turn-guess-word passed">passed</span>' +
-      '<span class="turn-guess-giver">' + guesserName + '</span>' +
-      '<span class="turn-guess-result">\u23ED</span>';
+    slot.innerHTML = '<span class="turn-role-tag">GUESS</span><span class="turn-guess-word passed">passed</span><span class="turn-guess-giver">' + guesserName + '</span><span class="turn-guess-result">\u23ED</span>';
   } else {
-    slot.innerHTML =
-      '<span class="turn-role-tag">GUESS</span>' +
-      '<span class="turn-guess-word ' + (isCorrect ? 'correct' : 'wrong') + '">' + guessWord.toUpperCase() + '</span>' +
-      '<span class="turn-guess-giver">' + guesserName + '</span>' +
-      '<span class="turn-guess-result">' + (isCorrect ? '\u2705' : '\u274C') + '</span>';
+    slot.innerHTML = '<span class="turn-role-tag">GUESS</span><span class="turn-guess-word ' + (isCorrect ? 'correct' : 'wrong') + '">' + guessWord.toUpperCase() + '</span><span class="turn-guess-giver">' + guesserName + '</span><span class="turn-guess-result">' + (isCorrect ? '\u2705' : '\u274C') + '</span>';
   }
 }
 
-// ── AI ──
+// ═══════════════════════
+// AI
+// ═══════════════════════
 function aiCall(prompt) {
-  return fetch('/.netlify/functions/get-clue', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt: prompt })
-  })
-  .then(function(r) {
-    if (!r.ok) throw new Error('API ' + r.status);
-    return r.json();
-  })
+  return fetch('/.netlify/functions/get-clue', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: prompt }) })
+  .then(function(r) { if (!r.ok) throw new Error('API ' + r.status); return r.json(); })
   .then(function(d) { return d.response || ''; })
   .catch(function(e) { console.error('AI error:', e); return null; });
 }
 
 function fetchAIClue(word, category, usedClues, clueNum, attempt) {
   attempt = attempt || 1;
-  var usedStr = usedClues.length > 0
-    ? 'FORBIDDEN clues (already used this round, you MUST NOT repeat ANY of these): [' + usedClues.join(', ') + ']. Pick a completely different word.'
-    : '';
+  var usedStr = usedClues.length > 0 ? 'FORBIDDEN clues (already used, MUST NOT repeat ANY): [' + usedClues.join(', ') + ']. Pick a completely different word.' : '';
   var hint = clueNum <= 2 ? 'Be creative and tricky.' : clueNum <= 4 ? 'Be moderately helpful.' : 'Be very direct.';
-
-  var prompt = 'You are a clue-giver in Password. The secret word is "' + word + '" (category: ' + category + ').\n' +
-    'Rules:\n- Give exactly ONE word as a clue.\n- Your clue cannot BE the secret word, CONTAIN it, or be a VARIANT of it.\n- Your clue cannot rhyme with the secret word.\n- ' + usedStr + '\n- Clue #' + clueNum + ': ' + hint + '\n\nRespond with ONLY ONE WORD. Nothing else.';
-
+  var prompt = 'You are a clue-giver in Password. The secret word is "' + word + '" (category: ' + category + ').\nRules:\n- Give exactly ONE word as a clue.\n- Cannot BE the secret word, CONTAIN it, or be a VARIANT of it.\n- Cannot rhyme with it.\n- ' + usedStr + '\n- Clue #' + clueNum + ': ' + hint + '\n\nRespond with ONLY ONE WORD.';
   return aiCall(prompt).then(function(result) {
     if (result) {
-      var clean = result.replace(/[^a-zA-Z]/g, '');
-      var upper = clean.toUpperCase();
-      // Check not the word itself and not a repeat
-      if (clean && upper !== word.toUpperCase() && usedClues.indexOf(upper) === -1 && usedClues.indexOf(clean) === -1) {
-        return clean;
-      }
-      // Retry once if duplicate
-      if (attempt < 2) {
-        return fetchAIClue(word, category, usedClues, clueNum, attempt + 1);
-      }
+      var clean = result.replace(/[^a-zA-Z]/g, ''), upper = clean.toUpperCase();
+      if (clean && upper !== word.toUpperCase() && usedClues.indexOf(upper) === -1) return clean;
+      if (attempt < 2) return fetchAIClue(word, category, usedClues, clueNum, attempt + 1);
     }
-    // Fallback — pick something unique
-    var fallbacks = ['related', 'similar', 'connected', 'linked', 'associated', 'nearby', 'close', 'adjacent', 'parallel', 'akin'];
-    for (var i = 0; i < fallbacks.length; i++) {
-      if (usedClues.indexOf(fallbacks[i].toUpperCase()) === -1) return fallbacks[i];
-    }
+    var fb = ['related','similar','connected','linked','associated','nearby','close','adjacent','parallel','akin'];
+    for (var i = 0; i < fb.length; i++) { if (usedClues.indexOf(fb[i].toUpperCase()) === -1) return fb[i]; }
     return 'hint';
   });
 }
 
 function fetchAIGuess(category, allClues, allGuesses) {
-  var clueList = allClues.map(function(c, i) { return (i + 1) + '. "' + c.word + '" (by ' + c.giver + ', Team ' + (c.team === 'a' ? 'Alpha' : 'Beta') + ')'; }).join('\n');
-  var prevGuesses = allGuesses.length > 0
-    ? '\nPrevious wrong guesses (do NOT repeat): [' + allGuesses.join(', ') + '].'
-    : '';
-
-  var prompt = 'You are guessing in Password. Category: "' + category + '".\n\nAll clues given so far:\n' + clueList + prevGuesses +
-    '\n\nWhat single word in the "' + category + '" category connects all these clues?\nRespond with ONLY your one-word guess. No explanation.';
-
-  return aiCall(prompt).then(function(result) {
-    if (result) {
-      var clean = result.replace(/[^a-zA-Z]/g, '');
-      if (clean) return clean;
-    }
-    return 'unknown';
-  });
+  var cl = allClues.map(function(c, i) { return (i+1) + '. "' + c.word + '" (by ' + c.giver + ')'; }).join('\n');
+  var pg = allGuesses.length > 0 ? '\nPrevious wrong guesses (do NOT repeat): [' + allGuesses.join(', ') + '].' : '';
+  var prompt = 'You are guessing in Password. Category: "' + category + '".\n\nClues:\n' + cl + pg + '\n\nGuess the word. Respond with ONLY one word.';
+  return aiCall(prompt).then(function(r) { if (r) { var c = r.replace(/[^a-zA-Z]/g, ''); if (c) return c; } return 'unknown'; });
 }
 
-// ── GAME FLOW ──
+// ═══════════════════════
+// GAME FLOW
+// ═══════════════════════
 function startGame() {
   G.teamA.human = $('p1-name').value.trim() || 'Player 1';
   G.teamA.humanRole = getRole('p1');
@@ -685,63 +733,50 @@ function startGame() {
   G.teamB.humanRole = getRole('p2');
   G.teamA.score = 0; G.teamB.score = 0;
   G.round = 0; G.usedWords.clear(); G.whosFirst = 'a';
-  $('score-a').textContent = '0';
-  $('score-b').textContent = '0';
-  showScreen('game');
-  nextRound();
+  $('score-a').textContent = '0'; $('score-b').textContent = '0';
+  showScreen('game'); nextRound();
 }
 
 function nextRound() {
   roundOverlay.classList.remove('active');
   G.round++;
   if (G.round > G.totalRounds) { showFinal(); return; }
-
   G.clueCountA = 0; G.clueCountB = 0;
   G.allClues = []; G.allGuesses = []; G.roundOver = false;
   G._currentTurnCard = null;
   G.whosFirst = G.round % 2 === 1 ? 'a' : 'b';
-
   var pool = WORDS[G.difficulty].filter(function(w) { return !G.usedWords.has(w.w); });
   if (pool.length === 0) G.usedWords.clear();
   var src = pool.length > 0 ? pool : WORDS[G.difficulty];
   var pick = src[Math.floor(Math.random() * src.length)];
   G.word = pick.w; G.category = pick.c; G.usedWords.add(pick.w);
-
   $('round-label').textContent = 'ROUND ' + G.round + ' / ' + G.totalRounds;
   $('category-label').textContent = G.category;
   turnTimeline.innerHTML = '';
   hideInputs(); updatePointsBadge();
-
   doCluePhase(G.whosFirst);
 }
 
 function doCluePhase(team) {
   if (G.roundOver) return;
   var key = team === 'a' ? 'clueCountA' : 'clueCountB';
-
   if (G[key] >= MAX_CLUES) {
-    var other = team === 'a' ? 'b' : 'a';
-    var otherKey = other === 'a' ? 'clueCountA' : 'clueCountB';
-    if (G[otherKey] >= MAX_CLUES) { endRound(null); return; }
+    var other = team === 'a' ? 'b' : 'a', oKey = other === 'a' ? 'clueCountA' : 'clueCountB';
+    if (G[oKey] >= MAX_CLUES) { endRound(null); return; }
     doCluePhase(other); return;
   }
-
   G[key]++;
-  var clueNum = G[key];
-  var cluer = cluerOf(team);
-
+  var clueNum = G[key], cluer = cluerOf(team);
   if (cluer.isBot) {
-    setStatus('\uD83E\uDD16 ' + cluer.name + ' is thinking of a clue <span class="dots-inline"><span></span><span></span><span></span></span>', 'ai-status');
+    setStatus('\uD83E\uDD16 ' + cluer.name + ' is thinking <span class="dots-inline"><span></span><span></span><span></span></span>', 'ai-status');
     hideInputs();
     sleep(800 + Math.random() * 700).then(function() {
-      var usedClues = allClueWords();
-      return fetchAIClue(G.word, G.category, usedClues, clueNum);
+      return fetchAIClue(G.word, G.category, allClueWords(), clueNum);
     }).then(function(clue) {
       if (G.roundOver) return;
       G.allClues.push({ word: clue, team: team, giver: cluer.name });
       G._currentTurnCard = createTurnCard(team, clueNum, cluer.name, clue);
-      updatePointsBadge();
-      hide(statusBanner);
+      updatePointsBadge(); hide(statusBanner);
       doGuessPhase(team);
     });
   } else {
@@ -751,7 +786,7 @@ function doCluePhase(team) {
     guessBtn.className = 'guess-btn t' + team + '-btn';
     guessBtn.textContent = 'GIVE';
     show(inputArea); hide(passBtn);
-    show(inputHint); inputHint.textContent = 'You see the word \u2014 give your partner a one-word clue';
+    show(inputHint); inputHint.textContent = 'Give your partner a one-word clue';
     guessInput.focus();
     G._submitMode = 'clue'; G._clueTeam = team; G._clueNum = clueNum;
   }
@@ -760,7 +795,6 @@ function doCluePhase(team) {
 function doGuessPhase(team) {
   if (G.roundOver) return;
   var guesser = guesserOf(team);
-
   if (guesser.isBot) {
     setStatus('\uD83E\uDD16 ' + guesser.name + ' is guessing <span class="dots-inline"><span></span><span></span><span></span></span>', 'ai-status');
     hideInputs();
@@ -800,19 +834,32 @@ function submitHuman() {
   var val = guessInput.value.trim();
   if (!val) return;
 
+  // Tutorial modes
+  if (G._submitMode === 'tut-wrong-guess') {
+    var w = val.toUpperCase().replace(/[^A-Z]/g, '');
+    if (!w) return;
+    if (w === 'GUITAR') { guessInput.value = ''; guessInput.placeholder = 'Try a wrong guess first!'; return; }
+    hideInputs(); hide(statusBanner);
+    tutHandleWrongGuess(w);
+    return;
+  }
+  if (G._submitMode === 'tut-correct-guess') {
+    var w = val.toUpperCase().replace(/[^A-Z]/g, '');
+    if (!w) return;
+    if (w !== 'GUITAR') { guessInput.value = ''; guessInput.placeholder = 'Type GUITAR to continue...'; return; }
+    hideInputs(); hide(statusBanner);
+    tutHandleCorrectGuess();
+    return;
+  }
+
+  // Normal game
   if (G._submitMode === 'clue') {
     var clean = val.replace(/[^a-zA-Z]/g, '');
     if (!clean) return;
     var upper = clean.toUpperCase();
-    if (upper === G.word.toUpperCase()) {
-      guessInput.value = ''; guessInput.placeholder = "Can't use the secret word!"; return;
-    }
-    // Check duplicate
-    if (allClueWords().indexOf(upper) !== -1) {
-      guessInput.value = ''; guessInput.placeholder = "That clue was already used!"; return;
-    }
-    var team = G._clueTeam;
-    var cluer = cluerOf(team);
+    if (upper === G.word.toUpperCase()) { guessInput.value = ''; guessInput.placeholder = "Can't use the secret word!"; return; }
+    if (allClueWords().indexOf(upper) !== -1) { guessInput.value = ''; guessInput.placeholder = "That clue was already used!"; return; }
+    var team = G._clueTeam, cluer = cluerOf(team);
     G.allClues.push({ word: clean, team: team, giver: cluer.name });
     G._currentTurnCard = createTurnCard(team, G._clueNum, cluer.name, clean);
     updatePointsBadge(); hideInputs(); hide(statusBanner);
@@ -820,8 +867,7 @@ function submitHuman() {
   } else {
     var guess = val.toUpperCase().replace(/[^A-Z]/g, '');
     if (!guess) return;
-    var team = G._guessTeam;
-    var guesser = guesserOf(team);
+    var team = G._guessTeam, guesser = guesserOf(team);
     var ok = guess === G.word.toUpperCase();
     if (!ok) G.allGuesses.push(guess);
     fillGuessInCard(G._currentTurnCard, guesser.name, guess, ok, false);
@@ -841,13 +887,13 @@ function handlePass() {
 }
 
 function endRound(winTeam) {
+  if (TUT.active) return; // Tutorial handles its own end
   G.roundOver = true; hideInputs(); hide(statusBanner);
   $('result-word').textContent = G.word;
   if (winTeam) {
     var pts = currentPoints();
     if (winTeam === 'a') G.teamA.score += pts; else G.teamB.score += pts;
-    $('score-a').textContent = G.teamA.score;
-    $('score-b').textContent = G.teamB.score;
+    $('score-a').textContent = G.teamA.score; $('score-b').textContent = G.teamB.score;
     var t = winTeam === 'a' ? G.teamA : G.teamB;
     var cls = winTeam === 'a' ? 'ta-hl' : 'tb-hl';
     var label = winTeam === 'a' ? 'Alpha' : 'Beta';
@@ -863,19 +909,15 @@ function endRound(winTeam) {
 
 function showFinal() {
   showScreen('final');
-  $('fs-a').textContent = G.teamA.score;
-  $('fs-b').textContent = G.teamB.score;
+  $('fs-a').textContent = G.teamA.score; $('fs-b').textContent = G.teamB.score;
   if (G.teamA.score > G.teamB.score) {
-    $('winner-title').textContent = 'Team Alpha Wins!';
-    $('winner-title').className = 'winner-title ta-win';
+    $('winner-title').textContent = 'Team Alpha Wins!'; $('winner-title').className = 'winner-title ta-win';
     $('winner-members').textContent = G.teamA.human + ' & ' + G.teamA.bot;
   } else if (G.teamB.score > G.teamA.score) {
-    $('winner-title').textContent = 'Team Beta Wins!';
-    $('winner-title').className = 'winner-title tb-win';
+    $('winner-title').textContent = 'Team Beta Wins!'; $('winner-title').className = 'winner-title tb-win';
     $('winner-members').textContent = G.teamB.human + ' & ' + G.teamB.bot;
   } else {
-    $('winner-title').textContent = "It's a Tie!";
-    $('winner-title').className = 'winner-title tie-game';
+    $('winner-title').textContent = "It's a Tie!"; $('winner-title').className = 'winner-title tie-game';
     $('winner-members').textContent = 'Well played, everyone!';
   }
 }
