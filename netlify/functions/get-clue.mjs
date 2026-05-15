@@ -1,5 +1,5 @@
 // Netlify Function: proxies AI requests to Anthropic API
-// Accepts: { prompt } (string)
+// Accepts: { prompt, temperature } (string, optional number)
 // Returns: { response } (string)
 
 export default async (req) => {
@@ -11,7 +11,7 @@ export default async (req) => {
   }
 
   try {
-    const { prompt } = await req.json();
+    const { prompt, temperature } = await req.json();
 
     if (!prompt) {
       return new Response(JSON.stringify({ error: 'Missing prompt' }), {
@@ -38,6 +38,7 @@ export default async (req) => {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 50,
+        temperature: typeof temperature === 'number' ? temperature : 1,
         messages: [{ role: 'user', content: prompt }]
       })
     });
