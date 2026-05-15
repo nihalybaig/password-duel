@@ -1,103 +1,76 @@
-export default async (req) => {
-  if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
-      status: 405,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+// Netlify Function: proxies AI requests to Anthropic API
+// Accepts: { prompt } (string)
+// Returns: { response } (string)
 
-  const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
-  if (!apiKey) {
-    return new Response(JSON.stringify({ error: "API key not configured" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
+export default async (req) => {
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'POST only' }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 
   try {
-    const { word, category, previousClues, clueNumber } = await req.json();
+    const { prompt } = await req.json();
 
-    if (!word || !category || clueNumber == null) {
-      return new Response(JSON.stringify({ error: "Missing required fields" }), {
+    if (!prompt) {
+      return new Response(JSON.stringify({ error: 'Missing prompt' }), {
         status: 400,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    const prevClueStr =
-      previousClues && previousClues.length > 0
-        ? `Previous clues given: ${previousClues.join(", ")}. Do NOT repeat any of these.`
-        : "";
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      return new Response(JSON.stringify({ error: 'API key not configured' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
-    const difficultyHint =
-      clueNumber <= 2
-        ? "Be creative and tricky - make them think!"
-        : clueNumber <= 4
-        ? "Be moderately helpful."
-        : "Be very direct and helpful.";
-
-    const prompt = `You are the clue-giver in a word guessing game called "Password". The secret word is "${word}" (category: ${category}).
-
-Rules:
-- Give exactly ONE single word as a clue
-- The clue cannot be the secret word itself or any part/form of it
-- The clue cannot rhyme with the secret word as a phonetic hint
-- ${prevClueStr}
-- Clue #${clueNumber} of 5: ${difficultyHint}
-
-Respond with ONLY the single clue word, nothing else. No punctuation, no explanation.`;
-
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
+    const apiResp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 50,
-        messages: [{ role: "user", content: prompt }],
-      }),
+        messages: [{ role: 'user', content: prompt }]
+      })
     });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error("Anthropic API error:", response.status, errText);
-      return new Response(
-        JSON.stringify({ error: "AI service error", status: response.status }),
-        { status: 502, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    const data = await response.json();
-    const clue = data.content
-      .filter((c) => c.type === "text")
-      .map((c) => c.text)
-      .join("")
-      .trim()
-      .replace(/[^a-zA-Z]/g, "");
-
-    if (!clue) {
-      return new Response(JSON.stringify({ error: "Empty clue from AI" }), {
+    if (!apiResp.ok) {
+      const errText = await apiResp.text();
+      console.error('Anthropic API error:', apiResp.status, errText);
+      return new Response(JSON.stringify({ error: 'AI API error', details: apiResp.status }), {
         status: 502,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    return new Response(JSON.stringify({ clue }), {
+    const data = await apiResp.json();
+    const text = data.content
+      ?.filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('')
+      .trim() || '';
+
+    return new Response(JSON.stringify({ response: text }), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
     });
+
   } catch (err) {
-    console.error("Function error:", err);
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
+    console.error('Function error:', err);
+    return new Response(JSON.stringify({ error: 'Server error' }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' }
     });
   }
-};
-
-export const config = {
-  path: "/api/get-clue",
 };

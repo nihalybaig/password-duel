@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Password Duel</title>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c28;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-dim: #8888a0;
+    --ta: #ff6b6b;
+    --ta-glow: #ff6b6b40;
+    --ta-bg: #ff6b6b12;
+    --tb: #4ecdc4;
+    --tb-glow: #4ecdc440;
+    --tb-bg: #4ecdc412;
+    --gold: #ffd93d;
+    --gold-glow: #ffd93d40;
+    --accent: #a78bfa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  .screen { display: none; min-height: 100dvh; flex-direction: column; }
+  .screen.active { display: flex; }
+
+  .setup {
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1.25rem;
+    gap: 1.5rem;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 20%, #1a1a2e 0%, var(--bg) 70%);
+  }
+
+  .logo {
+    font-family: 'Dela Gothic One', cursive;
+    font-size: 2.4rem;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--ta), var(--gold), var(--tb));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+  }
+
+  .logo-sub {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+  }
+
+  .team-setup {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .team-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    text-align: left;
+  }
+
+  .team-card.team-a { border-left: 3px solid var(--ta); }
+  .team-card.team-b { border-left: 3px solid var(--tb); }
+
+  .team-header {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .team-card.team-a .team-header { color: var(--ta); }
+  .team-card.team-b .team-header { color: var(--tb); }
+
+  .team-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .team-row:last-child { margin-bottom: 0; }
+
+  .player-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .player-icon.human { background: var(--surface2); border: 1px solid var(--border); }
+  .player-icon.bot { background: var(--accent); color: #0a0a0f; font-size: 0.75rem; }
+
+  .player-info { flex: 1; min-width: 0; }
+
+  .player-info .name-input {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    outline: none;
+  }
+
+  .player-info .name-input:focus { border-color: var(--accent); }
+
+  .bot-name { font-weight: 600; font-size: 0.85rem; color: var(--text); }
+  .bot-label { font-size: 0.65rem; color: var(--accent); font-weight: 500; }
+
+  .role-toggle {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .role-btn {
+    padding: 0.3rem 0.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 0.35rem;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+
+  .role-btn.selected {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #0a0a0f;
+  }
+
+  .role-btn.locked {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .settings-row {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .setting-card {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .setting-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .pill-group { display: flex; gap: 0.35rem; }
+
+  .pill-btn {
+    flex: 1;
+    padding: 0.45rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .pill-btn.selected { background: var(--accent); border-color: var(--accent); color: #0a0a0f; }
+  .pill-btn.diff-sel { background: var(--gold); border-color: var(--gold); color: #0a0a0f; }
+
+  .start-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, var(--ta), #e85d5d);
+    border: none;
+    border-radius: 0.8rem;
+    color: white;
+    font-family: 'Dela Gothic One', cursive;
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: transform 0.15s;
+    box-shadow: 0 4px 24px var(--ta-glow);
+  }
+
+  .start-btn:active { transform: scale(0.97); }
+
+  .game { background: var(--bg); }
+
+  .game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.75rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .team-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 70px;
+  }
+
+  .team-pill.ta { background: var(--ta-bg); color: var(--ta); border: 1px solid var(--ta-glow); }
+  .team-pill.tb { background: var(--tb-bg); color: var(--tb); border: 1px solid var(--tb-glow); }
+  .team-pill .tp-label { font-size: 0.55rem; letter-spacing: 1px; opacity: 0.7; }
+  .team-pill .tp-score { font-size: 1rem; }
+
+  .round-indicator {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  .game-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0.75rem;
+    gap: 0.75rem;
+    overflow-y: auto;
+  }
+
+  .clue-area { width: 100%; max-width: 420px; text-align: center; }
+
+  .category-badge {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+
+  .points-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    background: var(--gold);
+    color: #0a0a0f;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 2rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+    box-shadow: 0 2px 12px var(--gold-glow);
+  }
+
+  .clue-history { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.5rem; width: 100%; }
+
+  .clue-chip {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.6rem;
+    font-family: 'Dela Gothic One', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    color: var(--gold);
+    animation: clue-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .clue-chip.from-ta { background: var(--ta-bg); border: 1px solid var(--ta-glow); }
+  .clue-chip.from-tb { background: var(--tb-bg); border: 1px solid var(--tb-glow); }
+
+  .clue-chip .clue-meta { display: flex; flex-direction: column; align-items: flex-start; min-width: 50px; }
+  .clue-chip .clue-giver { font-family: 'DM Sans', sans-serif; font-size: 0.55rem; font-weight: 600; color: var(--text-dim); }
+  .clue-chip .clue-num { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; color: var(--text-dim); }
+  .clue-chip .clue-word { flex: 1; text-align: center; }
+
+  @keyframes clue-pop {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .status-banner {
+    width: 100%;
+    max-width: 420px;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.6rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    animation: slide-up 0.25s ease;
+  }
+
+  .status-banner.ta-turn { background: var(--ta-bg); border: 1px solid var(--ta-glow); color: var(--ta); }
+  .status-banner.tb-turn { background: var(--tb-bg); border: 1px solid var(--tb-glow); color: var(--tb); }
+  .status-banner.ai-status { background: var(--surface); border: 1px solid var(--border); color: var(--accent); }
+
+  @keyframes slide-up {
+    0% { transform: translateY(8px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  .dots-inline span {
+    display: inline-block; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent); animation: bounce 1.2s infinite; margin: 0 1px;
+  }
+  .dots-inline span:nth-child(2) { animation-delay: 0.15s; }
+  .dots-inline span:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+
+  .guess-section { width: 100%; max-width: 420px; display: flex; gap: 0.4rem; }
+
+  .guess-input {
+    flex: 1;
+    padding: 0.75rem 0.85rem;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 0.6rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .guess-input.ta-active { border-color: var(--ta); }
+  .guess-input.tb-active { border-color: var(--tb); }
+
+  .guess-btn {
+    padding: 0.75rem 1.1rem;
+    border: none;
+    border-radius: 0.6rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #0a0a0f;
+  }
+
+  .guess-btn:active { transform: scale(0.95); }
+  .guess-btn.ta-btn { background: var(--ta); }
+  .guess-btn.tb-btn { background: var(--tb); }
+
+  .pass-btn {
+    width: 100%;
+    max-width: 420px;
+    padding: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
+  .guess-log { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .guess-entry {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0.35rem 0.6rem; border-radius: 0.4rem;
+    font-size: 0.8rem; animation: slide-up 0.2s ease;
+  }
+
+  .guess-entry.ta-guess { background: var(--ta-bg); }
+  .guess-entry.tb-guess { background: var(--tb-bg); }
+  .guess-entry .gname { font-weight: 700; font-size: 0.7rem; }
+  .guess-entry.ta-guess .gname { color: var(--ta); }
+  .guess-entry.tb-guess .gname { color: var(--tb); }
+  .guess-entry .gword { color: var(--text-dim); font-weight: 500; }
+  .guess-entry .gresult { margin-left: auto; }
+
+  .overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(10,10,15,0.92); z-index: 100;
+    align-items: center; justify-content: center;
+    padding: 1.5rem; backdrop-filter: blur(8px);
+  }
+  .overlay.active { display: flex; }
+
+  .result-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 1.25rem; padding: 1.75rem 1.5rem;
+    text-align: center; max-width: 360px; width: 100%;
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pop-in {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .result-emoji { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .result-word { font-family: 'Dela Gothic One', cursive; font-size: 1.5rem; color: var(--gold); margin-bottom: 0.2rem; }
+  .result-msg { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1.25rem; line-height: 1.4; }
+  .result-msg .ta-hl { color: var(--ta); font-weight: 700; }
+  .result-msg .tb-hl { color: var(--tb); font-weight: 700; }
+
+  .next-btn {
+    padding: 0.75rem 2rem; background: var(--accent); border: none;
+    border-radius: 0.6rem; color: #0a0a0f;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  }
+  .next-btn:active { transform: scale(0.95); }
+
+  .final {
+    align-items: center; justify-content: center;
+    padding: 2rem 1.5rem; text-align: center; gap: 1.25rem;
+    background: radial-gradient(ellipse at 50% 30%, #1a1a2e 0%, var(--bg) 70%);
+  }
+
+  .trophy { font-size: 3.5rem; animation: trophy-bounce 1s ease infinite alternate; }
+
+  @keyframes trophy-bounce {
+    0% { transform: translateY(0) rotate(-3deg); }
+    100% { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  .winner-title { font-family: 'Dela Gothic One', cursive; font-size: 1.8rem; line-height: 1.2; }
+  .winner-title.ta-win { color: var(--ta); }
+  .winner-title.tb-win { color: var(--tb); }
+  .winner-title.tie-game { background: linear-gradient(135deg, var(--ta), var(--tb)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  .winner-members { font-size: 0.9rem; color: var(--text-dim); }
+
+  .final-scores { display: flex; gap: 1.5rem; }
+  .final-score-card { padding: 0.85rem 1.25rem; background: var(--surface); border-radius: 0.85rem; text-align: center; }
+  .final-score-card .fs-label { font-size: 0.7rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .final-score-card.ta-card .fs-label { color: var(--ta); }
+  .final-score-card.tb-card .fs-label { color: var(--tb); }
+  .final-score-card .fs-score { font-family: 'Dela Gothic One', cursive; font-size: 1.8rem; }
+
+  .play-again-btn {
+    padding: 0.85rem 2.5rem;
+    background: linear-gradient(135deg, var(--ta), var(--tb));
+    border: none; border-radius: 0.75rem;
+    color: white; font-family: 'Dela Gothic One', cursive;
+    font-size: 1rem; cursor: pointer;
+  }
+  .play-again-btn:active { transform: scale(0.97); }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="setup-screen" class="screen setup active">
+  <div>
+    <div class="logo">PASSWORD<br>DUEL</div>
+    <div class="logo-sub">2 humans &middot; 2 AI bots &middot; 1 word</div>
+  </div>
+
+  <div class="team-setup">
+    <div class="team-card team-a">
+      <div class="team-header">Team Alpha</div>
+      <div class="team-row">
+        <div class="player-icon human">&#x1F464;</div>
+        <div class="player-info">
+          <input type="text" id="p1-name" class="name-input" placeholder="Your name..." maxlength="12" value="Player 1">
+        </div>
+        <div class="role-toggle" data-player="p1">
+          <button class="role-btn selected" data-role="guesser">GUESS</button>
+          <button class="role-btn" data-role="cluer">CLUE</button>
+        </div>
+      </div>
+      <div class="team-row">
+        <div class="player-icon bot">&#x1F916;</div>
+        <div class="player-info">
+          <div class="bot-name">Nova</div>
+          <div class="bot-label">AI Partner</div>
+        </div>
+        <div class="role-toggle" data-player="bot1">
+          <button class="role-btn locked" data-role="guesser">GUESS</button>
+          <button class="role-btn locked selected" data-role="cluer">CLUE</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-card team-b">
+      <div class="team-header">Team Beta</div>
+      <div class="team-row">
+        <div class="player-icon human">&#x1F464;</div>
+        <div class="player-info">
+          <input type="text" id="p2-name" class="name-input" placeholder="Your name..." maxlength="12" value="Player 2">
+        </div>
+        <div class="role-toggle" data-player="p2">
+          <button class="role-btn selected" data-role="guesser">GUESS</button>
+          <button class="role-btn" data-role="cluer">CLUE</button>
+        </div>
+      </div>
+      <div class="team-row">
+        <div class="player-icon bot">&#x1F916;</div>
+        <div class="player-info">
+          <div class="bot-name">Byte</div>
+          <div class="bot-label">AI Partner</div>
+        </div>
+        <div class="role-toggle" data-player="bot2">
+          <button class="role-btn locked" data-role="guesser">GUESS</button>
+          <button class="role-btn locked selected" data-role="cluer">CLUE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-row">
+    <div class="setting-card">
+      <span class="setting-label">Rounds</span>
+      <div class="pill-group" id="rounds-group">
+        <button class="pill-btn" data-val="3">3</button>
+        <button class="pill-btn selected" data-val="5">5</button>
+        <button class="pill-btn" data-val="7">7</button>
+      </div>
+    </div>
+    <div class="setting-card">
+      <span class="setting-label">Difficulty</span>
+      <div class="pill-group" id="diff-group">
+        <button class="pill-btn diff-sel" data-val="easy">Easy</button>
+        <button class="pill-btn" data-val="medium">Mid</button>
+        <button class="pill-btn" data-val="hard">Hard</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="start-btn" id="start-btn">START DUEL</button>
+</div>
+
+<div id="game-screen" class="screen game">
+  <div class="game-header">
+    <div class="team-pill ta">
+      <span class="tp-label">ALPHA</span>
+      <span class="tp-score" id="score-a">0</span>
+    </div>
+    <div class="round-indicator" id="round-label">ROUND 1 / 5</div>
+    <div class="team-pill tb">
+      <span class="tp-label">BETA</span>
+      <span class="tp-score" id="score-b">0</span>
+    </div>
+  </div>
+
+  <div class="game-body">
+    <div class="clue-area">
+      <div class="category-badge" id="category-label"></div>
+      <div class="points-badge" id="points-badge">10 POINTS</div>
+      <div class="clue-history" id="clue-history"></div>
+    </div>
+
+    <div id="status-banner" class="status-banner ai-status hidden"></div>
+
+    <div class="guess-section hidden" id="guess-section">
+      <input type="text" id="guess-input" class="guess-input" placeholder="Your guess..." autocomplete="off" autocapitalize="off">
+      <button id="guess-btn" class="guess-btn ta-btn">GO</button>
+    </div>
+
+    <button class="pass-btn hidden" id="pass-btn">PASS</button>
+    <div class="guess-log" id="guess-log"></div>
+  </div>
+</div>
+
+<div id="round-overlay" class="overlay">
+  <div class="result-card">
+    <div class="result-emoji" id="result-emoji">&#x1F389;</div>
+    <div class="result-word" id="result-word"></div>
+    <div class="result-msg" id="result-msg"></div>
+    <button class="next-btn" id="next-btn">NEXT ROUND</button>
+  </div>
+</div>
+
+<div id="final-screen" class="screen final">
+  <div class="trophy">&#x1F3C6;</div>
+  <div class="winner-title" id="winner-title"></div>
+  <div class="winner-members" id="winner-members"></div>
+  <div class="final-scores">
+    <div class="final-score-card ta-card">
+      <div class="fs-label">ALPHA</div>
+      <div class="fs-score" id="fs-a">0</div>
+    </div>
+    <div class="final-score-card tb-card">
+      <div class="fs-label">BETA</div>
+      <div class="fs-score" id="fs-b">0</div>
+    </div>
+  </div>
+  <button class="play-again-btn" id="play-again-btn">PLAY AGAIN</button>
+</div>
+
+<script>
+const WORDS = {
+  easy: [
+    {w:"SUNSET",c:"Nature"},{w:"GUITAR",c:"Music"},{w:"CASTLE",c:"Architecture"},{w:"BANANA",c:"Food"},
+    {w:"ROCKET",c:"Space"},{w:"PILLOW",c:"Home"},{w:"JUNGLE",c:"Nature"},{w:"CANDLE",c:"Objects"},
+    {w:"PIRATE",c:"Adventure"},{w:"BUTTER",c:"Food"},{w:"DRAGON",c:"Fantasy"},{w:"HAMMER",c:"Tools"},
+    {w:"PARROT",c:"Animals"},{w:"BRIDGE",c:"Architecture"},{w:"CHERRY",c:"Food"},{w:"DONKEY",c:"Animals"},
+    {w:"TROPHY",c:"Sports"},{w:"CAMERA",c:"Technology"},{w:"ISLAND",c:"Geography"},{w:"COOKIE",c:"Food"},
+  ],
+  medium: [
+    {w:"COMPASS",c:"Navigation"},{w:"WHISPER",c:"Sound"},{w:"ECLIPSE",c:"Astronomy"},{w:"GLACIER",c:"Nature"},
+    {w:"PHOENIX",c:"Mythology"},{w:"MERCURY",c:"Science"},{w:"ORIGAMI",c:"Art"},{w:"LANTERN",c:"Objects"},
+    {w:"HARVEST",c:"Agriculture"},{w:"TORNADO",c:"Weather"},{w:"PYRAMID",c:"History"},{w:"BAMBOO",c:"Nature"},
+    {w:"HORIZON",c:"Nature"},{w:"PHANTOM",c:"Mystery"},{w:"PARADOX",c:"Philosophy"},{w:"CAPSULE",c:"Science"},
+    {w:"MOSAIC",c:"Art"},{w:"SUMMIT",c:"Geography"},{w:"CIPHER",c:"Code"},{w:"VOYAGE",c:"Travel"},
+  ],
+  hard: [
+    {w:"LABYRINTH",c:"Mythology"},{w:"SILHOUETTE",c:"Art"},{w:"NOSTALGIA",c:"Emotion"},
+    {w:"CARTOGRAPHY",c:"Science"},{w:"ALCHEMY",c:"History"},{w:"KALEIDOSCOPE",c:"Optics"},
+    {w:"SERENDIPITY",c:"Abstract"},{w:"ARCHIPELAGO",c:"Geography"},{w:"METAMORPHOSIS",c:"Biology"},
+    {w:"CATHARSIS",c:"Psychology"},{w:"FIBONACCI",c:"Mathematics"},{w:"RENAISSANCE",c:"History"},
+    {w:"PHOSPHORUS",c:"Chemistry"},{w:"AMBASSADOR",c:"Politics"},{w:"AVALANCHE",c:"Nature"},
+    {w:"HIEROGLYPH",c:"Language"},{w:"EQUILIBRIUM",c:"Physics"},{w:"CHRONICLE",c:"Literature"},
+    {w:"MONOLITH",c:"Geology"},{w:"VAGABOND",c:"Lifestyle"},
+  ]
+};
+
+const MAX_CLUES = 5;
+
+const G = {
+  teamA: { human: '', humanRole: 'guesser', bot: 'Nova', score: 0 },
+  teamB: { human: '', humanRole: 'guesser', bot: 'Byte', score: 0 },
+  totalRounds: 5, difficulty: 'easy', round: 0,
+  word: '', category: '', usedWords: new Set(),
+  clueCountA: 0, clueCountB: 0,
+  allClues: [],
+  whosFirst: 'a',
+  roundOver: false,
+  _submitMode: null, _clueTeam: null, _clueNum: 0, _guessTeam: null,
+};
+
+const $ = id => document.getElementById(id);
+const show = el => el.classList.remove('hidden');
+const hide = el => el.classList.add('hidden');
+
+const roundsGroup = $('rounds-group');
+const diffGroup = $('diff-group');
+const statusBanner = $('status-banner');
+const guessSection = $('guess-section');
+const guessInput = $('guess-input');
+const guessBtn = $('guess-btn');
+const passBtn = $('pass-btn');
+const guessLog = $('guess-log');
+const clueHistory = $('clue-history');
+const roundOverlay = $('round-overlay');
+
+document.querySelectorAll('.role-toggle[data-player^="p"]').forEach(toggle => {
+  const player = toggle.dataset.player;
+  const partner = player === 'p1' ? 'bot1' : 'bot2';
+  toggle.querySelectorAll('.role-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      toggle.querySelectorAll('.role-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const partnerToggle = document.querySelector('.role-toggle[data-player="' + partner + '"]');
+      const otherRole = btn.dataset.role === 'guesser' ? 'cluer' : 'guesser';
+      partnerToggle.querySelectorAll('.role-btn').forEach(b => {
+        b.classList.remove('selected');
+        if (b.dataset.role === otherRole) b.classList.add('selected');
+      });
+    });
+  });
+});
+
+roundsGroup.querySelectorAll('.pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    roundsGroup.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    G.totalRounds = parseInt(btn.dataset.val);
+  });
+});
+
+diffGroup.querySelectorAll('.pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    diffGroup.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('selected', 'diff-sel'));
+    btn.classList.add('diff-sel');
+    G.difficulty = btn.dataset.val;
+  });
+});
+
+$('start-btn').addEventListener('click', startGame);
+$('next-btn').addEventListener('click', nextRound);
+$('play-again-btn').addEventListener('click', () => location.reload());
+guessBtn.addEventListener('click', submitHuman);
+guessInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitHuman(); });
+passBtn.addEventListener('click', handlePass);
+
+function showScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(n + '-screen').classList.add('active');
+}
+
+function getRole(player) {
+  return document.querySelector('.role-toggle[data-player="' + player + '"] .role-btn.selected').dataset.role;
+}
+
+function cluerOf(team) {
+  const t = team === 'a' ? G.teamA : G.teamB;
+  return t.humanRole === 'cluer' ? { name: t.human, isBot: false } : { name: t.bot, isBot: true };
+}
+
+function guesserOf(team) {
+  const t = team === 'a' ? G.teamA : G.teamB;
+  return t.humanRole === 'guesser' ? { name: t.human, isBot: false } : { name: t.bot, isBot: true };
+}
+
+function currentPoints() {
+  const total = G.clueCountA + G.clueCountB;
+  return total === 0 ? 10 : Math.max(10 - (total - 1) * 2, 2);
+}
+
+function updatePointsBadge() {
+  const total = G.clueCountA + G.clueCountB;
+  $('points-badge').textContent = (total === 0 ? 10 : Math.max(10 - (total - 1) * 2, 2)) + ' POINTS';
+}
+
+function setStatus(html, cls) {
+  statusBanner.className = 'status-banner ' + cls;
+  statusBanner.innerHTML = html;
+  show(statusBanner);
+}
+
+function hideInputs() { hide(guessSection); hide(passBtn); }
+
+function addClueChip(clue, giver, team, num) {
+  const d = document.createElement('div');
+  d.className = 'clue-chip from-t' + team;
+  d.innerHTML = '<div class="clue-meta"><span class="clue-giver">' + giver + '</span><span class="clue-num">#' + num + '</span></div><span class="clue-word">' + clue.toUpperCase() + '</span>';
+  clueHistory.appendChild(d);
+}
+
+function addGuessEntry(name, word, ok, team) {
+  const d = document.createElement('div');
+  d.className = 'guess-entry t' + team + '-guess';
+  d.innerHTML = '<span class="gname">' + name + '</span><span class="gword">' + word + '</span><span class="gresult">' + (ok ? '\u2705' : '\u274C') + '</span>';
+  guessLog.prepend(d);
+}
+
+function addPassEntry(name, team) {
+  const d = document.createElement('div');
+  d.className = 'guess-entry t' + team + '-guess';
+  d.innerHTML = '<span class="gname">' + name + '</span><span class="gword" style="font-style:italic">passed</span><span class="gresult">\u23ED</span>';
+  guessLog.prepend(d);
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function aiCall(prompt) {
+  try {
+    const r = await fetch('/.netlify/functions/get-clue', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: prompt })
+    });
+    if (!r.ok) throw new Error('API ' + r.status);
+    const d = await r.json();
+    return d.response || '';
+  } catch (e) {
+    console.error('AI error:', e);
+    return null;
+  }
+}
+
+async function fetchAIClue(word, category, allPrevClues, clueNum) {
+  var prevStr = allPrevClues.length > 0
+    ? 'Clues already given by all players (do NOT repeat any): ' + allPrevClues.join(', ') + '.'
+    : '';
+  var hint = clueNum <= 2 ? 'Be creative and tricky.' : clueNum <= 4 ? 'Be moderately helpful.' : 'Be very direct.';
+
+  var prompt = 'You are the clue-giver in Password. Secret word: "' + word + '" (category: ' + category + ').\n' +
+    'Rules:\n- Give exactly ONE word as a clue\n- Cannot be the secret word, contain it, or be a variant of it\n- Cannot rhyme with it\n- ' + prevStr + '\n- Clue #' + clueNum + ': ' + hint + '\nRespond with ONLY the clue word. No punctuation.';
+
+  var result = await aiCall(prompt);
+  if (result) {
+    var clean = result.replace(/[^a-zA-Z]/g, '');
+    if (clean && clean.toUpperCase() !== word.toUpperCase()) return clean;
+  }
+  return ['related', 'similar', 'connected', 'linked', 'associated'][clueNum - 1] || 'hint';
+}
+
+async function fetchAIGuess(category, allClues) {
+  var clueList = allClues.map(function(c, i) { return (i + 1) + '. "' + c.word + '" (from ' + c.giver + ')'; }).join('\n');
+
+  var prompt = 'You are guessing in Password. Category: ' + category + '.\nClues so far:\n' + clueList + '\n\nGuess the secret word. Think about what single word in the "' + category + '" category connects these clues. You should guess a DIFFERENT word each time.\nRespond with ONLY your guess word. No punctuation, no explanation.';
+
+  var result = await aiCall(prompt);
+  if (result) {
+    var clean = result.replace(/[^a-zA-Z]/g, '');
+    if (clean) return clean;
+  }
+  return 'unknown';
+}
+
+function startGame() {
+  G.teamA.human = $('p1-name').value.trim() || 'Player 1';
+  G.teamA.humanRole = getRole('p1');
+  G.teamB.human = $('p2-name').value.trim() || 'Player 2';
+  G.teamB.humanRole = getRole('p2');
+  G.teamA.score = 0; G.teamB.score = 0;
+  G.round = 0; G.usedWords.clear(); G.whosFirst = 'a';
+  $('score-a').textContent = '0';
+  $('score-b').textContent = '0';
+  showScreen('game');
+  nextRound();
+}
+
+function nextRound() {
+  roundOverlay.classList.remove('active');
+  G.round++;
+  if (G.round > G.totalRounds) { showFinal(); return; }
+
+  G.clueCountA = 0; G.clueCountB = 0;
+  G.allClues = []; G.roundOver = false;
+  G.whosFirst = G.round % 2 === 1 ? 'a' : 'b';
+
+  var pool = WORDS[G.difficulty].filter(function(w) { return !G.usedWords.has(w.w); });
+  if (pool.length === 0) G.usedWords.clear();
+  var src = pool.length > 0 ? pool : WORDS[G.difficulty];
+  var pick = src[Math.floor(Math.random() * src.length)];
+  G.word = pick.w; G.category = pick.c; G.usedWords.add(pick.w);
+
+  $('round-label').textContent = 'ROUND ' + G.round + ' / ' + G.totalRounds;
+  $('category-label').textContent = G.category;
+  clueHistory.innerHTML = ''; guessLog.innerHTML = '';
+  hideInputs(); updatePointsBadge();
+
+  doCluePhase(G.whosFirst);
+}
+
+async function doCluePhase(team) {
+  if (G.roundOver) return;
+  var key = team === 'a' ? 'clueCountA' : 'clueCountB';
+
+  if (G[key] >= MAX_CLUES) {
+    var other = team === 'a' ? 'b' : 'a';
+    var otherKey = other === 'a' ? 'clueCountA' : 'clueCountB';
+    if (G[otherKey] >= MAX_CLUES) { endRound(null); return; }
+    doCluePhase(other); return;
+  }
+
+  G[key]++;
+  var clueNum = G[key];
+  var cluer = cluerOf(team);
+
+  if (cluer.isBot) {
+    setStatus('\uD83E\uDD16 ' + cluer.name + ' is thinking of a clue <span class="dots-inline"><span></span><span></span><span></span></span>', 'ai-status');
+    hideInputs();
+    await sleep(800 + Math.random() * 700);
+    var prevWords = G.allClues.map(function(c) { return c.word; });
+    var clue = await fetchAIClue(G.word, G.category, prevWords, clueNum);
+    if (G.roundOver) return;
+    G.allClues.push({ word: clue, team: team, giver: cluer.name });
+    addClueChip(clue, cluer.name, team, clueNum);
+    updatePointsBadge();
+    doGuessPhase(team);
+  } else {
+    setStatus('\uD83D\uDD11 ' + cluer.name + ', give a one-word clue (you know the word!)', 't' + team + '-turn');
+    guessInput.value = ''; guessInput.placeholder = 'One-word clue...';
+    guessInput.className = 'guess-input t' + team + '-active';
+    guessBtn.className = 'guess-btn t' + team + '-btn';
+    guessBtn.textContent = 'GIVE';
+    show(guessSection); hide(passBtn); guessInput.focus();
+    G._submitMode = 'clue'; G._clueTeam = team; G._clueNum = clueNum;
+  }
+}
+
+async function doGuessPhase(team) {
+  if (G.roundOver) return;
+  var guesser = guesserOf(team);
+
+  if (guesser.isBot) {
+    setStatus('\uD83E\uDD16 ' + guesser.name + ' is guessing <span class="dots-inline"><span></span><span></span><span></span></span>', 'ai-status');
+    hideInputs();
+    await sleep(1200 + Math.random() * 1000);
+    var guess = await fetchAIGuess(G.category, G.allClues);
+    if (G.roundOver) return;
+    var ok = guess.toUpperCase() === G.word.toUpperCase();
+    addGuessEntry(guesser.name, guess.toUpperCase(), ok, team);
+    if (ok) { endRound(team); return; }
+    advanceAfterGuess(team);
+  } else {
+    setStatus('\uD83C\uDFAF ' + guesser.name + ', guess the word!', 't' + team + '-turn');
+    guessInput.value = ''; guessInput.placeholder = guesser.name + ', your guess...';
+    guessInput.className = 'guess-input t' + team + '-active';
+    guessBtn.className = 'guess-btn t' + team + '-btn';
+    guessBtn.textContent = 'GO';
+    show(guessSection); show(passBtn); guessInput.focus();
+    G._submitMode = 'guess'; G._guessTeam = team;
+  }
+}
+
+function advanceAfterGuess(teamJust) {
+  var other = teamJust === 'a' ? 'b' : 'a';
+  var oKey = other === 'a' ? 'clueCountA' : 'clueCountB';
+  var tKey = teamJust === 'a' ? 'clueCountA' : 'clueCountB';
+  if (G[oKey] < MAX_CLUES) doCluePhase(other);
+  else if (G[tKey] < MAX_CLUES) doCluePhase(teamJust);
+  else endRound(null);
+}
+
+function submitHuman() {
+  var val = guessInput.value.trim();
+  if (!val) return;
+  if (G._submitMode === 'clue') {
+    var clean = val.replace(/[^a-zA-Z]/g, '');
+    if (!clean) return;
+    if (clean.toUpperCase() === G.word.toUpperCase()) {
+      guessInput.value = ''; guessInput.placeholder = "Can't use the secret word!"; return;
+    }
+    var team = G._clueTeam;
+    var cluer = cluerOf(team);
+    G.allClues.push({ word: clean, team: team, giver: cluer.name });
+    addClueChip(clean, cluer.name, team, G._clueNum);
+    updatePointsBadge(); hideInputs();
+    doGuessPhase(team);
+  } else {
+    var guess = val.toUpperCase().replace(/[^A-Z]/g, '');
+    if (!guess) return;
+    var team = G._guessTeam;
+    var guesser = guesserOf(team);
+    var ok = guess === G.word.toUpperCase();
+    addGuessEntry(guesser.name, guess, ok, team);
+    guessInput.value = '';
+    if (ok) { hideInputs(); endRound(team); return; }
+    hideInputs(); advanceAfterGuess(team);
+  }
+}
+
+function handlePass() {
+  if (G._submitMode !== 'guess') return;
+  var team = G._guessTeam;
+  addPassEntry(guesserOf(team).name, team);
+  hideInputs(); advanceAfterGuess(team);
+}
+
+function endRound(winTeam) {
+  G.roundOver = true; hideInputs(); hide(statusBanner);
+  $('result-word').textContent = G.word;
+  if (winTeam) {
+    var pts = currentPoints();
+    if (winTeam === 'a') G.teamA.score += pts; else G.teamB.score += pts;
+    $('score-a').textContent = G.teamA.score;
+    $('score-b').textContent = G.teamB.score;
+    var t = winTeam === 'a' ? G.teamA : G.teamB;
+    var cls = winTeam === 'a' ? 'ta-hl' : 'tb-hl';
+    var label = winTeam === 'a' ? 'Alpha' : 'Beta';
+    $('result-emoji').textContent = '\uD83C\uDF89';
+    $('result-msg').innerHTML = '<span class="' + cls + '">Team ' + label + '</span> (' + t.human + ' & ' + t.bot + ') scored <strong>' + pts + ' points</strong>!';
+  } else {
+    $('result-emoji').textContent = '\uD83D\uDE05';
+    $('result-msg').innerHTML = 'Nobody guessed it!';
+  }
+  $('next-btn').textContent = G.round >= G.totalRounds ? 'SEE RESULTS' : 'NEXT ROUND';
+  roundOverlay.classList.add('active');
+}
+
+function showFinal() {
+  showScreen('final');
+  $('fs-a').textContent = G.teamA.score;
+  $('fs-b').textContent = G.teamB.score;
+  if (G.teamA.score > G.teamB.score) {
+    $('winner-title').textContent = 'Team Alpha Wins!';
+    $('winner-title').className = 'winner-title ta-win';
+    $('winner-members').textContent = G.teamA.human + ' & ' + G.teamA.bot;
+  } else if (G.teamB.score > G.teamA.score) {
+    $('winner-title').textContent = 'Team Beta Wins!';
+    $('winner-title').className = 'winner-title tb-win';
+    $('winner-members').textContent = G.teamB.human + ' & ' + G.teamB.bot;
+  } else {
+    $('winner-title').textContent = "It's a Tie!";
+    $('winner-title').className = 'winner-title tie-game';
+    $('winner-members').textContent = 'Well played, everyone!';
+  }
+}
+</script>
+</body>
+</html>
