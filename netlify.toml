@@ -1,0 +1,1 @@
+[build]\n  publish = "public"\n\n[[headers]]\n  for = "/index.html"\n  [headers.values]\n    Cache-Control = "no-cache, no-store, must-revalidate"\n\n[[headers]]\n  for = "/*"\n  [headers.values]\n    X-Frame-Options = "DENY"\n    X-Content-Type-Options = "nosniff"
