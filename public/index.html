@@ -72,7 +72,7 @@ function aiCall(p){
     if(!r.ok) return r.json().catch(function(){return{error:'HTTP '+r.status}}).then(function(e){throw new Error(e.detail||e.error||'API error '+r.status)});
     return r.json()
   })
-  .then(function(d){return d.response||''})
+  .then(function(d){var raw=d.response||'';var first=raw.replace(/[^a-zA-Z\s]/g,'').trim().split(/\s+/)[0]||'';return first})
 }
 
 function fetchAIClue(word,cat,used,cn,botName,attempt){
@@ -80,7 +80,7 @@ function fetchAIClue(word,cat,used,cn,botName,attempt){
   var style=BOT_STYLE[botName]||'',nonce=Math.random().toString(36).substr(2,8);
   var usedStr=used.length>0?'FORBIDDEN (already used): ['+used.join(', ')+']. Pick COMPLETELY DIFFERENT.':'';
   var hint=cn<=2?'Be creative and tricky.':cn<=4?'Be moderately helpful.':'Be very direct.';
-  var prompt='You are "'+botName+'". '+style+'\nPassword game. Secret: "'+word+'" ('+cat+'). Nonce: '+nonce+'\nRules: ONE word clue. Cannot BE/CONTAIN/rhyme secret word. '+usedStr+'\nClue #'+cn+': '+hint+'\nONLY ONE WORD.';
+  var prompt='You are "'+botName+'". '+style+'\nPassword game. Secret: "'+word+'" ('+cat+'). N:'+nonce+'\nONE word clue. No explanation. No quotes. No markdown. No parentheses. Just the single clue word alone.\nCannot BE/CONTAIN/rhyme secret word. '+usedStr+'\nClue #'+cn+': '+hint+'\nRespond with EXACTLY one word, nothing else:';
   return aiCall(prompt).then(function(r){
     var c=r.replace(/[^a-zA-Z]/g,''),u=c.toUpperCase();
     if(c&&u!==word.toUpperCase()&&used.indexOf(u)===-1)return c;
@@ -94,7 +94,7 @@ function fetchAIClue(word,cat,used,cn,botName,attempt){
 function fetchAIGuess(cat,clues,guesses){
   var cl=clues.map(function(c,i){return(i+1)+'. "'+c.word+'" ('+c.giver+')'}).join('\n');
   var pg=guesses.length>0?'\nWrong (do NOT repeat): ['+guesses.join(', ')+'].':'';
-  return aiCall('Password. Category: "'+cat+'".\nClues:\n'+cl+pg+'\nGuess. ONLY one word.')
+  return aiCall('Password game. Category: "'+cat+'".\nClues:\n'+cl+pg+'\nGuess the secret word. No explanation. No quotes. No markdown. Respond with EXACTLY one word, nothing else:')
 }
 
 function startGame(){G.teamA.human=$('p1-name').value.trim()||'Player 1';G.teamA.humanRole=getRole('p1');G.teamB.human=$('p2-name').value.trim()||'Player 2';G.teamB.humanRole=getRole('p2');G.teamA.score=0;G.teamB.score=0;G.round=0;G.whosFirst='a';G._shuffledWords=shuffleArray(WORDS[G.difficulty]);$('score-a').textContent='0';$('score-b').textContent='0';showScreen('game');nextRound()}
